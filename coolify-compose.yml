@@ -9,7 +9,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: opencart-app
     restart: unless-stopped
     environment:
       - APP_URL=${SERVICE_FQDN_OPENCART:-http://localhost}
@@ -32,7 +31,6 @@ services:
 
   db:
     image: mariadb:10.6
-    container_name: opencart-db
     restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-root_secret}
