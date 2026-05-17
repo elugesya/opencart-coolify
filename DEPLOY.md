@@ -103,17 +103,22 @@ On first visit, OpenCart will automatically redirect to the installation wizard:
 
 ## Step 7: Install iyzico Plugin
 
-The iyzico plugin files are already included in the image. To enable it:
+The iyzico plugin is **not pre-installed** in the Docker image (to keep the build repo-independent). Install it after OpenCart is running:
 
-1. Log in to OpenCart Admin (`/admin`)
-2. Go to **Extensions → Extensions**
-3. Choose **"Payments"** from the dropdown
-4. Find **"iyzico"** and click **"Install"**
-5. Click **"Edit"** to configure:
+1. Download `iyzico.ocmod.zip` from the [iyzico GitHub releases](https://github.com/iyzico/iyzipay-opencart) or your local copy
+2. Log in to OpenCart Admin (`/admin`)
+3. Go to **Extensions → Installer**
+4. Upload `iyzico.ocmod.zip`
+5. Go to **Extensions → Extensions**
+6. Choose **"Payments"** from the dropdown
+7. Find **"iyzico"** and click **"Install"**
+8. Click **"Edit"** to configure:
    - API Key (from iyzico merchant panel)
    - Secret Key (from iyzico merchant panel)
    - Test/Live mode
    - Other settings
+
+> **Alternative:** If you want the iyzico plugin baked into the image, add the `upload/` folder (extracted from `iyzico.ocmod.zip`) to this repo and uncomment the `COPY upload/` line in the `Dockerfile`.
 
 ## Persistent Data
 
