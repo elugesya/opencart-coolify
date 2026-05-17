@@ -16,7 +16,7 @@ services:
       - DB_PREFIX=${DB_PREFIX:-oc_}
     volumes:
       - opencart_image:/var/www/html/image/
-      - opencart_storage:/var/www/html/system/storage/
+      - opencart_storage:/var/www/storage/
     depends_on:
       db:
         condition: service_healthy
