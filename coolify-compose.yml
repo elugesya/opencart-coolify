@@ -22,8 +22,6 @@ services:
     volumes:
       - opencart_image:/var/www/html/image/
       - opencart_storage:/var/www/html/system/storage/
-    networks:
-      - opencart-network
     depends_on:
       - db
     healthcheck:
@@ -43,8 +41,6 @@ services:
       - MYSQL_PASSWORD=${DB_PASSWORD:-opencart_secret}
     volumes:
       - db_data:/var/lib/mysql
-    networks:
-      - opencart-network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -55,7 +51,3 @@ volumes:
   opencart_image:
   opencart_storage:
   db_data:
-
-networks:
-  opencart-network:
-    driver: bridge
