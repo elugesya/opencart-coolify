@@ -41,7 +41,6 @@ RUN curl -L -o opencart.zip "https://github.com/opencart/opencart/releases/downl
     && unzip opencart.zip -d /tmp/opencart \
     && mv /tmp/opencart/upload/* /var/www/html/ \
     && rm -rf /tmp/opencart opencart.zip \
-    && rm -f /var/www/html/config-dist.php /var/www/html/admin/config-dist.php \
     && rm -f /var/www/html/install.txt /var/www/html/license.txt
 
 
