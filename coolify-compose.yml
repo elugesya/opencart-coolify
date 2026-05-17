@@ -1,0 +1,61 @@
+# Coolify Docker Compose Configuration
+# Use this file when creating a Docker Compose resource in Coolify
+# It uses Coolify's service FQDN and persistent volume conventions
+
+version: '3.8'
+
+services:
+  opencart:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: opencart-app
+    restart: unless-stopped
+    environment:
+      - APP_URL=${SERVICE_FQDN_OPENCART:-http://localhost}
+      - DB_HOSTNAME=db
+      - DB_USERNAME=${DB_USERNAME:-opencart}
+      - DB_PASSWORD=${DB_PASSWORD:-opencart_secret}
+      - DB_DATABASE=${DB_DATABASE:-opencart}
+      - DB_PORT=3306
+      - DB_PREFIX=${DB_PREFIX:-oc_}
+    volumes:
+      - opencart_image:/var/www/html/image/
+      - opencart_storage:/var/www/html/system/storage/
+    networks:
+      - opencart-network
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  db:
+    image: mariadb:10.6
+    container_name: opencart-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-root_secret}
+      - MYSQL_DATABASE=${DB_DATABASE:-opencart}
+      - MYSQL_USER=${DB_USERNAME:-opencart}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-opencart_secret}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - opencart-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  opencart_image:
+  opencart_storage:
+  db_data:
+
+networks:
+  opencart-network:
+    driver: bridge
