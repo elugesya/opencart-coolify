@@ -1,6 +1,6 @@
 # Deploy OpenCart 3.x to Coolify
 
-This guide walks you through deploying OpenCart 3.x with the iyzico payment plugin on your self-hosted Coolify instance.
+This guide walks you through deploying OpenCart 3.x on your self-hosted Coolify instance.
 
 ## Prerequisites
 
@@ -12,13 +12,13 @@ This guide walks you through deploying OpenCart 3.x with the iyzico payment plug
 
 | File | Purpose |
 |------|---------|
-| `Dockerfile` | Builds PHP 7.4 + Apache with OpenCart 3.0.3.9 and iyzico plugin |
+| `Dockerfile` | Builds PHP 7.4 + Apache with OpenCart 3.0.3.9 |
 | `docker-compose.yml` | Local development stack |
 | `coolify-compose.yml` | Optimized for Coolify deployment |
 | `entrypoint.sh` | Container startup script (creates config files, sets permissions) |
 | `opencart.ini` | PHP runtime configuration |
 | `.env.example` | Environment variables template |
-| `upload/` | iyzico payment gateway extension files |
+
 
 ## Step 1: Prepare Environment Variables
 
@@ -43,7 +43,7 @@ DB_PREFIX=oc_
 ```bash
 git init
 git add .
-git commit -m "Initial OpenCart 3.x + iyzico Coolify deployment"
+git commit -m "Initial OpenCart 3.x Coolify deployment"
 git remote add origin <your-repo-url>
 git push -u origin main
 ```
@@ -101,24 +101,6 @@ On first visit, OpenCart will automatically redirect to the installation wizard:
 > ```
 > Or restart the container in Coolify after removing the directory.
 
-## Step 7: Install iyzico Plugin
-
-The iyzico plugin is **not pre-installed** in the Docker image (to keep the build repo-independent). Install it after OpenCart is running:
-
-1. Download `iyzico.ocmod.zip` from the [iyzico GitHub releases](https://github.com/iyzico/iyzipay-opencart) or your local copy
-2. Log in to OpenCart Admin (`/admin`)
-3. Go to **Extensions → Installer**
-4. Upload `iyzico.ocmod.zip`
-5. Go to **Extensions → Extensions**
-6. Choose **"Payments"** from the dropdown
-7. Find **"iyzico"** and click **"Install"**
-8. Click **"Edit"** to configure:
-   - API Key (from iyzico merchant panel)
-   - Secret Key (from iyzico merchant panel)
-   - Test/Live mode
-   - Other settings
-
-> **Alternative:** If you want the iyzico plugin baked into the image, add the `upload/` folder (extracted from `iyzico.ocmod.zip`) to this repo and uncomment the `COPY upload/` line in the `Dockerfile`.
 
 ## Persistent Data
 

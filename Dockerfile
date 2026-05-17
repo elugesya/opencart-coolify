@@ -44,9 +44,7 @@ RUN curl -L -o opencart.zip "https://github.com/opencart/opencart/releases/downl
     && rm -f /var/www/html/config-dist.php /var/www/html/admin/config-dist.php \
     && rm -f /var/www/html/install.txt /var/www/html/license.txt
 
-# NOTE: iyzico plugin can be installed later via OpenCart Extension Installer.
-# To pre-install it, add the upload/ folder to this repo and uncomment:
-# COPY upload/ /var/www/html/
+
 
 # Set proper permissions for OpenCart 3.x
 RUN chown -R www-data:www-data /var/www/html \
